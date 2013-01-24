@@ -378,8 +378,13 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,
 {
   self = [super init];
   if (self) {
+/*<<<<<<< HEAD
     [self setStringEncoding:(NSStringEncoding)[decoder decodeIntegerForKey:@"stringEncoding"]];
     _postDataEncoding = (MKNKPostDataEncodingType) [decoder decodeIntegerForKey:@"postDataEncoding"];
+=======*/
+    [self setStringEncoding:[decoder decodeIntegerForKey:@"stringEncoding"]];
+    _postDataEncoding = (MKNKPostDataEncodingType)[decoder decodeIntegerForKey:@"postDataEncoding"];
+//>>>>>>> aa55e3d501993d3624b31b27fc48961ecaa4939e
     self.request = [decoder decodeObjectForKey:@"request"];
     self.uniqueId = [decoder decodeObjectForKey:@"uniqueId"];
     
@@ -762,7 +767,11 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,
   }];
   
   if (postLength >= 1)
+/*<<<<<<< HEAD
     [self.request setValue:[NSString stringWithFormat:@"%lu", (unsigned long) postLength] forHTTPHeaderField:@"Content-Length"];
+=======*/
+    [self.request setValue:[NSString stringWithFormat:@"%u", postLength] forHTTPHeaderField:@"content-length"];
+//>>>>>>> aa55e3d501993d3624b31b27fc48961ecaa4939e
   
   [body appendData: [[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:self.stringEncoding]];
   
@@ -772,7 +781,11 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,
     [self.request setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@", charset, boundary]
         forHTTPHeaderField:@"Content-Type"];
     
+/*<<<<<<< HEAD
     [self.request setValue:[NSString stringWithFormat:@"%lu", (unsigned long) [body length]] forHTTPHeaderField:@"Content-Length"];
+=======*/
+    [self.request setValue:[NSString stringWithFormat:@"%d", [body length]] forHTTPHeaderField:@"Content-Length"];
+//>>>>>>> aa55e3d501993d3624b31b27fc48961ecaa4939e
   }
   
   return body;
@@ -1182,7 +1195,11 @@ OSStatus extractIdentityAndTrust(CFDataRef inPKCS12Data,        // 5
       NSString *bytesText = [rangeString substringWithRange:NSMakeRange(6, [rangeString length] - 7)];
       self.startPosition = [bytesText integerValue];
       self.downloadedDataSize = self.startPosition;
+/*<<<<<<< HEAD
       DLog(@"Resuming at %lu bytes", (unsigned long) self.startPosition);
+=======*/
+      DLog(@"Resuming at %d bytes", self.startPosition);
+//>>>>>>> aa55e3d501993d3624b31b27fc48961ecaa4939e
     }
   }
   
